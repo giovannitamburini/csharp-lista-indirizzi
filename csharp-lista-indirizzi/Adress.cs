@@ -8,14 +8,18 @@ namespace csharp_lista_indirizzi
 {
     public class Adress
     {
-        // Street,City,Province,ZIP
+        //Name, Surname, Street,City,Province,ZIP
+        public string Name { get; private set; }
+        public string Surname { get; private set; }
         public string Street { get; private set; }
         public string City { get; private set; }
         public string Province { get; private set; }
         public int Zip { get; private set; }
 
-        public Adress(string street, string city, string province, int zip)
+        public Adress(string name, string surname, string street, string city, string province, int zip)
         {
+            this.Name = name;
+            this.Surname = surname;
             this.Street = street;
             this.City = city;
             this.Province = province;
