@@ -25,5 +25,10 @@ namespace csharp_lista_indirizzi
             this.Province = province;
             this.Zip = zip;
         }
+
+        public void PrintAdress()
+        {
+            Console.WriteLine($"INDIRIZZO: {Name}, {Surname}, {Street}, {City}, {Province}, {Zip}");
+        }
     }
 }
