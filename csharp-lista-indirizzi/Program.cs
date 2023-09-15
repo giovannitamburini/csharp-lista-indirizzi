@@ -37,6 +37,11 @@ namespace csharp_lista_indirizzi
                         // divido una stringa in un array di stringhe basandomi sul carattere della virgola
                         string[] stringSplits = line.Split(',');
 
+                        for (int i = 0; i < stringSplits.Length; i++)
+                        {
+                            stringSplits[i] = stringSplits[i].Trim();
+                        }
+
                         if (stringSplits.Length != 6)
                         {
                             // sollevo un eccezione come prova perchè una volta sollevata il programma ferma la sua esecuzione
@@ -48,11 +53,10 @@ namespace csharp_lista_indirizzi
                         }
                         else
                         {
-
                             //if (stringSplits[0].Length == 0 || stringSplits[1].Length == 0 || stringSplits[2].Length == 0 || stringSplits[3].Length == 0 || stringSplits[4].Length == 0 || stringSplits[5].Length == 0)
                             if (stringSplits.Any(s => s.Length == 0))
                             {
-                                Console.WriteLine($"L'indirizzo '{line}' non è conforme");
+                                Console.WriteLine($"L'indirizzo '{line}' non è conforme"); 
                             }
                             else
                             {
@@ -89,6 +93,7 @@ namespace csharp_lista_indirizzi
                 Console.WriteLine(ex.Message);
             }
 
+
             // come prova stampo gli elementi della lista 
             for (int i = 0; i < rightAdress.Count; i++)
             {
@@ -100,7 +105,6 @@ namespace csharp_lista_indirizzi
 
             try
             {
-
                 StreamWriter rightFile = File.CreateText("C:\\Users\\giova\\source\\repos\\csharp-lista-indirizzi\\csharp-lista-indirizzi\\right-addresses.csv");
 
                 for (int i = 0; i < rightAdress.Count; i++)
