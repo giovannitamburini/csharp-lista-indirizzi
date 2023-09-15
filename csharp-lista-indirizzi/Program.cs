@@ -20,77 +20,49 @@ namespace csharp_lista_indirizzi
                 // salvo il file di testo in una variabile del tipo StreamReader(classe)
                 StreamReader adressesFile = File.OpenText("C:\\Users\\giova\\source\\repos\\csharp-lista-indirizzi\\csharp-lista-indirizzi\\my-addresses.csv");
 
-                // istanzio un contatore a 1 per saltare la prima riga
-                int lineCounter = 1;
-
-                // ciclo per leggere le varie righe di adressesFile
-                while (!adressesFile.EndOfStream)
+                try
                 {
-                    // salvo in una variabile stringa la riga letta
-                    string line = adressesFile.ReadLine();
+                    // istanzio un contatore a 1 per saltare la prima riga
+                    int lineCounter = 1;
 
-                    // controllo di non essere nella prima linea per evitare di stampare la legenda
-                    if (lineCounter > 1)
+                    // ciclo per leggere le varie righe di adressesFile
+                    while (!adressesFile.EndOfStream)
                     {
-                        //Console.WriteLine(line);
+                        // salvo in una variabile stringa la riga letta
+                        string line = adressesFile.ReadLine();
 
-                        // divido una stringa in un array di stringhe basandomi sul carattere della virgola
-                        string[] stringSplits = line.Split(',');
-
-                        for (int i = 0; i < stringSplits.Length; i++)
+                        // controllo di non essere nella prima linea per evitare di stampare la legenda
+                        if (lineCounter > 1)
                         {
-                            stringSplits[i] = stringSplits[i].Trim();
-                        }
-
-                        if (stringSplits.Length != 6)
-                        {
-                            // sollevo un eccezione come prova perchè una volta sollevata il programma ferma la sua esecuzione
-                            //throw new Exception($"L'indirizzo '{line}' non è leggibile");
-
-                            // utilizzo un writeline per evitare che si blocchi il programma
-                            Console.WriteLine($"L'indirizzo '{line}' non è leggibile");
-
-                        }
-                        else
-                        {
-                            //if (stringSplits[0].Length == 0 || stringSplits[1].Length == 0 || stringSplits[2].Length == 0 || stringSplits[3].Length == 0 || stringSplits[4].Length == 0 || stringSplits[5].Length == 0)
-                            if (stringSplits.Any(s => s.Length == 0))
+                            try
                             {
-                                Console.WriteLine($"L'indirizzo '{line}' non è conforme"); 
-                            }
-                            else
-                            {
-                                string name = stringSplits[0];
-                                string surname = stringSplits[1];
-                                string street = stringSplits[2];
-                                string city = stringSplits[3];
-                                string province = stringSplits[4];
-                                int zip = int.Parse(stringSplits[5]);
-
-                                // controllo
-                                //Console.WriteLine($"L'indirizzo è: {name}, {surname}, {street}, {city}, {province}, {zip}.");
-
-                                Adress newAdress = new Adress(name, surname, street, city, province, zip);
-
-                                // richiamo il metodo della classe Adress per stampare a video l'indirizzo
-                                newAdress.PrintAdress();
-
-                                // aggiungo l'indirizzo alla lista degli indirizzi giusti
+                                Adress newAdress = Adress.ParseFromLine(line);
                                 rightAdress.Add(newAdress);
+
+                            }
+                            catch (Exception ex)
+                            {
+                                Console.WriteLine(ex.Message);
                             }
                         }
+
+                        lineCounter++;
                     }
 
-                    lineCounter++;
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine(ex.Message);
+                }
+                finally
+                {
+                    adressesFile.Close();
                 }
 
-                // chiudo il file in lettura
-                adressesFile.Close();
-
             }
-            catch (Exception ex)
+            catch (Exception e)
             {
-                Console.WriteLine(ex.Message);
+                Console.WriteLine(e.Message);
             }
 
 
@@ -115,7 +87,8 @@ namespace csharp_lista_indirizzi
 
                 rightFile.Close();
 
-            } catch
+            }
+            catch
             {
                 Console.WriteLine("Eccezione");
             }
